@@ -1,6 +1,6 @@
 # Online Learning Platform
 
-**Note: This project is still under development.**
+<span style="color: orange">**Note: This project is still under development.**</span>
 
 A simple Online learning platform using the MERN stack (MongoDB, Express.js, React.js, Node.js). The system allows users to register, login, and view their profiles. JWT (JSON Web Tokens) are used to maintain user authentication.
 
@@ -36,4 +36,4 @@ npm install
 npm start
 ```
 
-**Warning: This version only includes functionalities for student registration and course enrollment. Other features are still under development.**
+<span style="color: orange">**Warning: This version only includes functionalities for student registration and course enrollment. Other features are still under development.**</span>
