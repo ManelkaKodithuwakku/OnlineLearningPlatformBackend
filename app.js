@@ -1,7 +1,7 @@
 import express from 'express';
-import { routes } from './src/routes/index.js';
-import { initializeDbConnection } from './src/datasources/mongodb.js';
 import cors from 'cors';
+import initializeDbConnection from './src/datasources/mongodb.js'
+import userRoutes from './src/routes/usersRoute.js'
 
 const PORT = process.env.PORT || 8080;
 
@@ -12,11 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Add all the routes to our Express server
-// exported from routes/index.js
-routes.forEach(route => {
-    app[route.method](route.path, route.handler);
-});
+app.use(userRoutes)
 
 // Connect to the database, then start the server.
 // This prevents us from having to create a new DB
