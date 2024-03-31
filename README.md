@@ -2,6 +2,7 @@
 
 ```diff
 - **Note: This project is still under development.**
+- DUE TO: Pre-planned weekend activities
 ```
 
 A simple Online learning platform using the MERN stack (MongoDB, Express.js, React.js, Node.js). The system allows users to register, login, and view their profiles. JWT (JSON Web Tokens) are used to maintain user authentication.
@@ -11,7 +12,7 @@ A simple Online learning platform using the MERN stack (MongoDB, Express.js, Rea
 1. **Clone the project:**
 
    ```bash
-   git clone https://github.com/ManelkaKodithuwakku/OnlineLearningPlatformBackend
+   git clone https://github.com/ManelkaKodithuwakku/OnlineLearningPlatformBackend.git
    ```
 
 2. Add a `.env` file with the following required fields to set up MongoDB:
