@@ -11,6 +11,7 @@ export const validateSignup = (data) => {
         username: joi.string().required().label('Username'),
         email: joi.string().email().required().label('Email'),
         password: passwordComplexity().required().label('Password'),
+        isAdmin: joi.boolean()
     });
 
     return schema.validate(data);
