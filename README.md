@@ -5,7 +5,7 @@
 - DUE TO: Pre-planned weekend activities
 ```
 
-A simple Online learning platform using the MERN stack (MongoDB, Express.js, React.js, Node.js). The system allows users to register, login, and view their profiles. JWT (JSON Web Tokens) are used to maintain user authentication.
+A simple Online learning platform using the MERN stack (MongoDB, Express.js, React.js, Node.js). The system allows users to register, login, and view all courses and enrolled it.. JWT (JSON Web Tokens) are used to maintain user authentication.
 
 ## Setting up the Project and MongoDB
 
