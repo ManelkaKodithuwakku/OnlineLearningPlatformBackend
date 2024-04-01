@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import initializeDbConnection from './src/datasources/mongodb.js'
 import userRoutes from './src/routes/usersRoute.js'
+import courseRoutes from './src/routes/courseRoute.js'
 
 const PORT = process.env.PORT || 8080;
 
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use(userRoutes)
+app.use(courseRoutes)
 
 // Connect to the database, then start the server.
 // This prevents us from having to create a new DB

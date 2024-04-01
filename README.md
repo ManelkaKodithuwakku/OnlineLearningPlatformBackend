@@ -1,11 +1,6 @@
 # Online Learning Platform
 
-```diff
-- **Note: This project is still under development.**
-- DUE TO: Pre-planned weekend activities
-```
-
-A simple Online learning platform using the MERN stack (MongoDB, Express.js, React.js, Node.js). The system allows users to register, login, and view all courses and enrolled it.. JWT (JSON Web Tokens) are used to maintain user authentication.
+This guide provides instructions for setting up and running an online learning platform using the MERN stack (MongoDB, Express.js, React.js, Node.js). The system facilitates user registration, login, course management, student management, enrollment management, and provides a user-friendly front-end web application for students. Additionally, it includes API designs for backend services.
 
 ## Setting up the Project and MongoDB
 
@@ -39,6 +34,33 @@ npm install
 npm start
 ```
 
-```diff
-- **Warning: This version only includes functionalities for student registration and course enrollment. Other features are still under development.**
+## How to create Admin User
+
+### Option 1: Execute Script
+
+1. Install Axios:
+
+   ```bash
+   npm install axios
+   ```
+
+2. Run the script to create an admin user:
+
+   ```bash
+   node --experimental-modules ./src/scripts/create_admin_user.cjs
+   ```
+
+### Option 2: Use Postman Curl
+
+Use Postman or any REST client to execute the following curl command to create an admin user:
+
+```bash
+curl --location 'http://localhost:8080/api/users/signup' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "Admin",
+    "email": "admin@gmail.com",
+    "password": "Admin@12345",
+    "isAdmin": true
+}'
 ```

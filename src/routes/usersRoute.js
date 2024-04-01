@@ -2,6 +2,7 @@ import express from 'express';
 import { User, authMiddleware } from '../models/user.js';
 import { validateSignup, validateLogin } from '../services/user-service.js';
 import bcrypt from 'bcrypt';
+import { Course } from '../models/course.js';
 
 const router = express.Router();
 
@@ -13,7 +14,7 @@ router.post('/api/users/signup', async (req, res) => {
         if (error) return res.status(400).send({ message: error.details[0].message });
 
         // Check if user with the given email already exists
-        const user = await User.findOne({ email: req.body.email });
+        const user = await User.findOne({ email: req.body.email.toLowerCase() });
         if (user) return res.status(406).send({ message: "User already exists with the given email." });
 
         // Generate hash for the password
@@ -40,7 +41,7 @@ router.post('/api/users/login', async (req, res) => {
         if (error) return res.status(400).send({ message: error.details[0].message });
 
         // Find the user based on the provided email
-        const user = await User.findOne({ email: req.body.email });
+        const user = await User.findOne({ email: req.body.email.toLowerCase() });
         if (!user) return res.status(406).send({ message: "User not registered yet. Please signup first and then login" });
 
         // Check if the provided password is valid
@@ -56,14 +57,23 @@ router.post('/api/users/login', async (req, res) => {
 });
 
 // Route to get user details (requires authentication middleware)
-router.get('/api/user/details', authMiddleware, (req, res) => {
+router.get('/api/user/details', authMiddleware, async (req, res) => {
+
+    const courses = await Course.find({});
+    const coursesTitle = req.user.enrolledCourses.map(courseId => {
+        let exitCourse = courses.find((e)=>{
+            return e._id.toString()===courseId.toString()
+        });
+        return exitCourse.title;
+    })
+
     // The user details are available in req.user
     const userDetails = {
         username: req.user.username,
-        email: req.user.email,
+        email: req.user.email.toLowerCase(),
         id: req.user._id,
         isAdmin: req.user.isAdmin,
-        enrolledCourses: req.user.enrolledCourses
+        enrolledCourses: coursesTitle
     };
 
     res.json(userDetails);
@@ -85,7 +95,7 @@ router.put('/api/user/enroll/:courseId', authMiddleware,async (req, res) =>{
     // Update the user document based on the email
     try {
         const updatedUser = await User.findOneAndUpdate(
-            { email: req.user.email },
+            { email: req.user.email.toLowerCase() },
             updateOperation
         );
 
