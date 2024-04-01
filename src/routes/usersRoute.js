@@ -13,8 +13,10 @@ router.post('/api/users/signup', async (req, res) => {
         const { error } = validateSignup(req.body);
         if (error) return res.status(400).send({ message: error.details[0].message });
 
+        req.body.email = req.body.email.toLowerCase();
+
         // Check if user with the given email already exists
-        const user = await User.findOne({ email: req.body.email.toLowerCase() });
+        const user = await User.findOne({ email: req.body.email });
         if (user) return res.status(406).send({ message: "User already exists with the given email." });
 
         // Generate hash for the password

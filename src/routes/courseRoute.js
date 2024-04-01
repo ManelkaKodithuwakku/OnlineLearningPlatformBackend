@@ -1,6 +1,7 @@
 import express from 'express';
 import { authMiddleware } from '../models/user.js';
 import { Course } from '../models/course.js';
+import { validateCourse } from '../services/course-service.js';
 
 const router = express.Router();
 
@@ -8,14 +9,17 @@ router.post('/api/admin/add/course', authMiddleware,async (req, res) =>{
     const {title, content} = req.body;
 
     if(!req.user.isAdmin){
-        res.send(401).send({ message: "Admin only can input new course" });
+        return res.status(401).send({ message: "Admin only can input new course" });
     }
+
+    const { error } = validateCourse(req.body);
+    if (error) return res.status(400).send({ message: error.details[0].message });
 
     try {
         await new Course({title, content}).save();
-        res.status(201).send({ message: "Successfully added a new course" })
+        return res.status(201).send({ message: "Successfully added a new course" })
     } catch (error) {
-        res.status(500).send({ message: "Error occurred while adding new xourse" })
+        return res.status(500).send({ message: "Error occurred while adding new xourse" })
     }
 })
 
@@ -30,16 +34,19 @@ router.get('/api/get/courses',authMiddleware, async (req,res)=>{
                 }
             }
         ]);
-        res.status(200).send({ courses: courseList })
+        return res.status(200).send({ courses: courseList })
     } catch (error) {
-        res.status(500).send({ message: "Error occurred while getting courses" })
+        return res.status(500).send({ message: "Error occurred while getting courses" })
     }
 })
 
 router.put('/api/admin/update/:courseId',authMiddleware,async (req,res)=>{
     if(!req.user.isAdmin){
-        res.send(401).send({ message: "Admin only can input new course" });
+        return res.status(401).send({ message: "Admin only can input new course" });
     }
+
+    const { error } = validateCourse(req.body);
+    if (error) return res.status(400).send({ message: error.details[0].message });
 
     const { title, content } = req.body;
     const { courseId } = req.params;
@@ -66,11 +73,11 @@ router.put('/api/admin/update/:courseId',authMiddleware,async (req,res)=>{
         );
 
         // If the course is found and updated successfully
-        res.status(200).json({ isSuccess: true });
+        return res.status(200).json({ isSuccess: true });
     } catch (error) {
         // Handle any errors that occur during the update operation
         console.error(error);
-        res.status(500).json({ isSuccess: false, message: 'Internal server error' });
+        return res.status(500).json({ isSuccess: false, message: 'Internal server error' });
     }
 })
 
